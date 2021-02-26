@@ -1,11 +1,12 @@
 import requests #get html data
 from bs4 import BeautifulSoup #html parser
 
-INDEED_URL = "https://kr.indeed.com/jobs?q=devops&limit=50"
+LIMIT = 50
+URL = f"https://kr.indeed.com/jobs?q=devops&limit={LIMIT}"
 
 def extract_indeed_pages():
   #indeed 쿼리 페이지의 html 가져오기
-  result = requests.get(INDEED_URL)
+  result = requests.get(URL)
   #bs객체에 넣기(html 파서 선택)
   soup = BeautifulSoup(result.text, "html.parser")
 
@@ -27,3 +28,16 @@ def extract_indeed_pages():
   max_page = pages[-1]
   return max_page
 
+
+def extract_indeed_jobs(last_page):
+  jobs=[]
+  #마지막 페이지 번호만큼 requests 수행해서 job title 가져오기
+  # for page in range(last_page):
+  result = requests.get(f"{URL}&start={0*LIMIT}")
+  soup = BeautifulSoup(result.text, "html.parser")
+  results = soup.find_all("div", {"class": "jobsearch-SerpJobCard"})
+  for result in results:
+    title = result.find("h2", {"class": "title"}).find("a")["title"]
+    print(title)
+  return jobs
+  
