@@ -1,7 +1,8 @@
-from Indeed import extract_indeed_pages, extract_indeed_jobs
+from Indeed import get_jobs as get_indeed_jobs
+from save import save_to_file
 
-#Indeed의 last 페이지 넘버 가져오기
-last_indeed_pages = extract_indeed_pages()
+# Web Scrapping
+indeed_jobs = get_indeed_jobs()
+# Writing a file
+save_to_file(indeed_jobs)
 
-#Indeed 모든 페이지 job 정보 가져오기
-extract_indeed_jobs(last_indeed_pages)
